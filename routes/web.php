@@ -12,10 +12,22 @@
 */
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Auth::routes();
+
+Route::post('get-user', 'UserController@getUser');
+Route::get('raaohs', 'RaaohsController@index');
+Route::get('raaods', 'RaaodsController@getRaaods');
+Route::get('raaods-ledger', 'RaaodsController@getRaaodsLedger');
+
+Route::get('funds', 'FundController@index');
+Route::get('functions', 'FunctionController@index');
+Route::get('appropriation-types', 'AppropriationTypeController@index');
+Route::post('change-password', 'UserController@changePassword');
+
 

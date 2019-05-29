@@ -2,13 +2,15 @@
 
 namespace App;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
     use Notifiable;
+
+    protected $table = "systemusers";
+    protected $primaryKey = "recid";
 
     /**
      * The attributes that are mass assignable.
@@ -29,22 +31,15 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
+     * Overrides the method to ignore the remember token.
      */
-    public function getJWTIdentifier()
+    public function setAttribute($key, $value)
     {
-        return $this->getKey();
+        $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+        if (!$isRememberTokenAttribute)
+        {
+        parent::setAttribute($key, $value);
+        }
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 }
