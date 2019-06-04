@@ -57,8 +57,6 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
 @-moz-keyframes flash {
   0% {
     opacity: 1; }
@@ -16105,11 +16103,13 @@ ul {
 /* === Landing screens === */
 /* Auth */
 .auth.auth-bg-1 {
-  background: url("../images/auth/login_1.jpg");
-  background-size: cover; }
+  /* background: url("../images/auth/login_1.jpg"); */
+  background-color: #003a6d;
+  background-size: cover; } 
 
 .auth.register-bg-1 {
-  background: url("../images/auth/register.jpg") center center no-repeat;
+  /* background: url("../images/auth/register.jpg") center center no-repeat; */
+  background-color: #003a6d;
   background-size: cover; }
 
 .auth.theme-one .auto-form-wrapper {
