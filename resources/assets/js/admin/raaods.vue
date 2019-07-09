@@ -29,7 +29,8 @@
                                             <td>{{ formatPrice(item.tapprop) }}</td>
                                             <td>{{ formatPrice(item.tallot) }}</td>
                                             <td>{{ formatPrice(item.toblig) }}</td>
-                                            <td>{{ formatPrice(item.tbalance) }}</td>
+                                            <td>{{ formatPrice(item.tapprop - item.tallot) }}</td>
+                                            <td>{{ formatPrice(item.tapprop - item.toblig) }}</td>
                                         </tr>
                                     </tbody>
                                 </datatable>
@@ -68,12 +69,13 @@ export default {
         let sortOrders = {};
 
         let columns = [
-            { width: "10%", label: "factcode", name: "factcode" },
-            { width: "50%", label: "factdesc", name: "factdesc" },
-            { width: "10%", label: "tapprop", name: "tapprop" },
-            { width: "10%", label: "tallot", name: "tallot" },
-            { width: "10%", label: "toblig", name: "toblig" },
-            { width: "10%", label: "tbalance", name: "tbalance" }
+            { width: "10%", label: "Account Code", name: "Acct. Code" },
+            { width: "50%", label: "Account Description", name: "Acct. Description" },
+            { width: "10%", label: "Appropration", name: "Appropration" },
+            { width: "10%", label: "Allotment", name: "Allotment" },
+            { width: "10%", label: "Obligation", name: "Obligation" },
+            { width: "10%", label: "Allot Bal", name: "Balance1" },
+            { width: "10%", label: "Approp Bal", name: "Balance2" }
         ];
 
         columns.forEach(column => {

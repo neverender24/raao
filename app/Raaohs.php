@@ -27,4 +27,16 @@ class Raaohs extends Model
     public function source() {
         return $this->belongsTo('App\Source','idsource','recid');
     }
+
+    public function approp() {
+        return $this->hasMany('App\Raaods', 'idraao', 'recid');
+    }
+
+    public function allot() {
+        return $this->hasMany('App\Raaods', 'idraao', 'recid');
+    }
+
+    public function oblig() {
+        return $this->hasMany('App\Raaods', 'idraao', 'recid');
+    }
 }

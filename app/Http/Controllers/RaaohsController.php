@@ -12,7 +12,7 @@ class RaaohsController extends Controller
     }
 
     public function index(Request $request) {
-        $sortFields     = ['recid'];
+        $sortFields     = ['FRAODESC'];
 		$length         = $request->length;
 		$column         = $request->column;
         $dir            = $request->dir;
@@ -23,8 +23,17 @@ class RaaohsController extends Controller
         $fund           = $request->fund;
         $appropriation   = $request->appropriation;
 
-        $index = $this->model->with(['function', 'source'])
-        ->orderBy($sortFields[$column], $dir);
+        $index = $this->model->with(['function', 'source',
+            'approp'=>function($q){
+                $q->where('entrytype', 1);
+            },
+            'allot'=>function($q){
+                $q->where('entrytype', 2);
+            },
+            'oblig'=>function($q){
+                $q->where('entrytype', 3);
+            }])
+        ->orderBy($sortFields[$column], 'ASC');
 
         if ($searchValue) {
             $index->where(function($query) use($searchValue, $year){

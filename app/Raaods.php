@@ -19,4 +19,8 @@ class Raaods extends Model
     public function payee() {
         return $this->belongsTo('App\Payee', 'idpayee', 'recid');
     }
+
+    public function approp() {
+        return $this->belongsTo('App\Raaod', 'idraao', 'recid');
+    }
 }

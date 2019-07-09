@@ -22,16 +22,16 @@
             </div>
           </li>
           <li class="nav-item">
-            <router-link to="dashboard" class="nav-link">
+            <router-link to="raaohs" class="nav-link">
               <i class="menu-icon fa fa-home"></i>
               <span class="menu-title">Dashboard</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="raaohs" class="nav-link">
+            <a href="#" v-on:click="logout()" class="nav-link">
               <i class="menu-icon fa fa-list"></i>
-              <span class="menu-title">RAAOH</span>
-            </router-link>
+              <span class="menu-title">Logout</span>
+            </a>
           </li>
         </ul>
       </nav>
@@ -39,7 +39,18 @@
 
 <script>
 export default {
-  props: ["user"]
+  props: ["user"],
+  methods : {
+    logout() {
+            axios
+                .post("logout")
+                .then(response => {
+                    location.reload()
+                })
+                .catch(error => (this.errors = error.response.data.errors));
+                location.reload()
+        },
+  }
 }
 </script>
 

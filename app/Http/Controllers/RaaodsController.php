@@ -65,7 +65,7 @@ class RaaodsController extends Controller
         ->where('entrytype','>',0);
 
         $this->search($index, $searchValue);
-		$index = $index->orderBy("raaods.recid", $dir)->paginate($length);
+		$index = $index->orderBy("raaods.fdate", "asc")->paginate($length);
 
     	return ['data'=>$index, 'draw'=> $request->draw];
     }

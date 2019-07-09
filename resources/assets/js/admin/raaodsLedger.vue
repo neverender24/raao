@@ -1,9 +1,5 @@
 <template>
-    <div
-        class="modal fade"
-        id="modalRaaodsLedger"
-        data-backdrop="static"
-    >
+    <div class="modal fade" id="modalRaaodsLedger" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -30,8 +26,8 @@
                                         <td>{{ formatPrice(item.tapprop) }}</td>
                                         <td>{{ formatPrice(item.tallot) }}</td>
                                         <td>{{ formatPrice(item.toblig) }}</td>
-                                        <td>{{ formatPrice(item.tapprop - item.tallot) }}</td>
-                                        <td>{{ formatPrice(item.tallot - item.toblig) }}</td>
+                                        <td>{{ formatPrice(remainingBalance(data, index)) }}</td>
+                                        <td>{{ formatPrice(remainingBalance2(data, index)) }}</td>
                                     </tr>
                                 </tbody>
                             </datatable>
@@ -53,9 +49,9 @@
 </template>
 
 <style>
-    #modalRaaodsLedger .modal-content{
-        background-color:mistyrose;
-    }
+#modalRaaodsLedger .modal-content {
+    background-color: mistyrose;
+}
 </style>
 
 <script>
@@ -77,10 +73,10 @@ export default {
             { width: "10%", label: "Payee", name: "payee" },
             { width: "10%", label: "OBR#", name: "frefno" },
             { width: "10%", label: "Approp", name: "tapprop" },
-            { width: "10%", label: "Oblig", name: "toblig" },
-            { width: "10%", label: "Allot", name: "tallot" },
+            { width: "10%", label: "Allot", name: "toblig" },
+            { width: "10%", label: "Oblig", name: "tallot" },
             { width: "10%", label: "Allot Bal", name: "allbalance" },
-            { width: "10%", label: "Approp Bal", name: "appbalance" },
+            { width: "10%", label: "Approp Bal", name: "appbalance" }
         ];
 
         columns.forEach(column => {
@@ -108,7 +104,8 @@ export default {
                 from: "",
                 to: ""
             },
-            data: []
+            data: [],
+            runningAllot: []
         };
     },
     watch: {
@@ -159,14 +156,48 @@ export default {
         },
         entryType(item) {
             if (item == 0) {
-                return "RAAO DET"
+                return "RAAO DET";
             } else if (item == 1) {
-                return "Approp"
+                return "Approp";
             } else if (item == 2) {
-                return "Allot"
+                return "Allot";
             } else if (item == 3) {
-                return "Oblig"
+                return "Oblig";
             }
+        },
+
+        remainingBalance(data, index) {
+            var firstBalance = data[0].tapprop - data[0].tallot
+            var newBalance = 0
+            var arr = []
+            _.forEach(data, function(e, index){
+                if (index == 0) {
+                    newBalance = firstBalance
+                }
+                
+                newBalance = newBalance - e.tallot
+                arr.push(newBalance)
+            })
+
+            return arr[index]
+            
+        },
+
+        remainingBalance2(data, index) {
+            var firstBalance = data[0].tapprop - data[0].toblig
+            var newBalance = 0
+            var arr = []
+            _.forEach(data, function(e, index){
+                if (index == 0) {
+                    newBalance = firstBalance
+                }
+                
+                newBalance = newBalance - e.toblig
+                arr.push(newBalance)
+            })
+
+            return arr[index]
+            
         }
     }
 };

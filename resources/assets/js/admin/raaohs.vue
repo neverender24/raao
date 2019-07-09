@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h4 class="card-title">RAAO</h4>
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-sm-12">
                         <input
                             type="text"
                             class="form-control form-control-sm"
@@ -30,7 +30,7 @@
                 <div class="collapse multi-collapse" id="multiCollapseExample1">
                     <div class="more">
                         <div class="row">
-                            <div class="form-group col-1">
+                            <div class="form-group col-sm-12 col-md-3">
                                 <input
                                     type="text"
                                     class="form-control form-control-sm"
@@ -39,7 +39,7 @@
                                     placeholder="Year"
                                 >
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-sm-12 col-md-3">
                                 <select
                                     v-model="tableData.ffunccod"
                                     @change="getData()"
@@ -49,7 +49,7 @@
                                     <option v-for="(item, index) in functions" :value="item.FFUNCCOD">{{ item.FFUNCCOD }} - {{ item.FFUNCTION }}</option>
                                 </select>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-sm-12 col-md-3">
                                 <select
                                     v-model="tableData.fund"
                                     @change="getData()"
@@ -59,7 +59,7 @@
                                     <option v-for="(item, index) in funds">{{ item.FFUNDDES }}</option>
                                 </select>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-sm-12 col-md-3">
                                 <select
                                     v-model="tableData.appropriation"
                                     @change="getData()"
@@ -90,6 +90,11 @@
                             <td>{{ item.function.FFUNCCOD }}</td>
                             <td>{{ item.source.FSOURCE }}</td>
                             <td>{{ item.FRAODESC }}</td>
+                            <td style="text-align: right;">{{ formatPrice(sumApprop(item.approp)) }}</td>
+                            <td style="text-align: right;">{{ formatPrice(sumAllot(item.allot)) }}</td>
+                            <td style="text-align: right;">{{ formatPrice(sumOblig(item.oblig)) }}</td>
+                            <td style="text-align: right;">{{ formatPrice(allotBalance(sumApprop(item.approp), sumAllot(item.allot))) }}</td>
+                            <td style="text-align: right;">{{ formatPrice(appropBalance(sumApprop(item.approp), sumOblig(item.oblig))) }}</td>
                         </tr>
                     </tbody>
                 </datatable>
@@ -97,7 +102,7 @@
                     :pagination="pagination"
                     @prev="getData(pagination.prevPageUrl)"
                     @next="getData(pagination.nextPageUrl)"
-                ></pagination>
+                ></pagination> 
             </div>
         </div>
         <raaods :recid="recid"></raaods>
@@ -123,9 +128,14 @@ export default {
         let sortOrders = {};
 
         let columns = [
-            { width: "20%", label: "CODE", name: "CODE" },
-            { width: "30%", label: "SOURCE", name: "SOURCE" },
+            { width: "10%", label: "CODE", name: "CODE" },
+            { width: "10%", label: "SOURCE", name: "SOURCE" },
             { width: "50%", label: "DESCRIPTION", name: "DESCRIPTION"},
+            { width: "10%", label: "APPROP", name: "APPROP"},
+            { width: "10%", label: "ALLOT", name: "ALLOT"},
+            { width: "10%", label: "OBLIG", name: "OBLIG"},
+            { width: "10%", label: "ALLOT BAL", name: "Allot Bal"},
+            { width: "10%", label: "APPROP BAL", name: "Approp Bal"},
         ];
 
         columns.forEach(column => {
@@ -217,7 +227,47 @@ export default {
             this.recid = recid;
 
             $("#exampleModalCenter").modal("show");
-        }
+        },
+
+        sumApprop(data) {
+            var sum = 0
+            _.forEach(data, function(e){
+                sum = e.famount + sum
+            })
+
+            return sum
+        },
+
+        sumAllot(data) {
+            var sum = 0
+            _.forEach(data, function(e){
+                sum = e.famount + sum
+            })
+
+            return sum
+        },
+
+        sumOblig(data) {
+            var sum = 0
+            _.forEach(data, function(e){
+                sum = e.famount + sum
+            })
+
+            return sum
+        },
+
+        allotBalance(approp, allot) {
+            return approp - allot
+        },
+
+        appropBalance(approp, oblig) {
+            return approp - oblig
+        },
+
+        formatPrice(value) {
+            let val = (value / 1).toFixed(2).replace(",", ".");
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
     }
 };
 </script>
