@@ -21,11 +21,13 @@ class RaaodsController extends Controller
         $recid          = $request->recid;
 
         $index = $this->model->with(['ooe'])
+        ->leftjoin('ooes','ooes.recid','=','raaods.idooe')
         ->select(
             'idooe',
             'idraao',
-            'recid', 
+            'raaods.recid', 
             'aipcode', 
+            'FOOEDESC',
             'famount as tbalance',
             DB::raw('SUM( if(entrytype = 1, famount, 0)) as tapprop'),
             DB::raw('SUM( if(entrytype = 2, famount, 0)) as tallot'),
@@ -34,7 +36,7 @@ class RaaodsController extends Controller
         ->where('idraao', $recid);
 
         $this->search($index, $searchValue);
-		$index = $index->groupBy('idooe')->orderBy("raaods.recid", $dir)->paginate($length);
+		$index = $index->groupBy('idooe')->orderBy("FOOEDESC",'asc')->paginate($length);
 
     	return ['data'=>$index, 'draw'=> $request->draw];
     }

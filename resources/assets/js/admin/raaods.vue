@@ -25,7 +25,7 @@
                                             @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)"
                                         >
                                             <td>{{ item.ooe.FACTCODE }}</td>
-                                            <td>{{ item.ooe.FOOEDESC }}</td>
+                                            <td>{{ item.FOOEDESC }}</td>
                                             <td>{{ formatPrice(item.tapprop) }}</td>
                                             <td>{{ formatPrice(item.tallot) }}</td>
                                             <td>{{ formatPrice(item.toblig) }}</td>
@@ -146,6 +146,7 @@ export default {
                     this.data = data.data.data;
                     this.configPagination(data.data);
                 }
+
             });
         },
         //formating number to currency

@@ -52793,9 +52793,7 @@ var render = function() {
                                       _vm._v(_vm._s(item.ooe.FACTCODE))
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(item.ooe.FOOEDESC))
-                                    ]),
+                                    _c("td", [_vm._v(_vm._s(item.FOOEDESC))]),
                                     _vm._v(" "),
                                     _c("td", [
                                       _vm._v(

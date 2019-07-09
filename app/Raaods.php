@@ -13,7 +13,7 @@ class Raaods extends Model
     }
 
     public function ooe() {
-        return $this->belongsTo('App\Ooes', 'idooe', 'recid');
+        return $this->belongsTo('App\Ooes', 'idooe', 'recid')->orderBy('FOOEDESC', 'desc');
     }
 
     public function payee() {
