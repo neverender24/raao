@@ -30,7 +30,7 @@
                                             <td>{{ formatPrice(item.tallot) }}</td>
                                             <td>{{ formatPrice(item.toblig) }}</td>
                                             <td>{{ formatPrice(item.tapprop - item.tallot) }}</td>
-                                            <td>{{ formatPrice(item.tapprop - item.toblig) }}</td>
+                                            <td>{{ formatPrice(item.tallot - item.toblig) }}</td>
                                         </tr>
                                     </tbody>
                                 </datatable>
@@ -70,12 +70,16 @@ export default {
 
         let columns = [
             { width: "10%", label: "Account Code", name: "Acct. Code" },
-            { width: "50%", label: "Account Description", name: "Acct. Description" },
+            {
+                width: "50%",
+                label: "Account Description",
+                name: "Acct. Description"
+            },
             { width: "10%", label: "Appropration", name: "Appropration" },
             { width: "10%", label: "Allotment", name: "Allotment" },
             { width: "10%", label: "Obligation", name: "Obligation" },
-            { width: "10%", label: "Allot Bal", name: "Balance1" },
-            { width: "10%", label: "Approp Bal", name: "Balance2" }
+            { width: "10%", label: "Appropriation Balance", name: "Balance2" },
+            { width: "10%", label: "Allotment Balance", name: "Balance1" }
         ];
 
         columns.forEach(column => {
@@ -146,7 +150,6 @@ export default {
                     this.data = data.data.data;
                     this.configPagination(data.data);
                 }
-
             });
         },
         //formating number to currency
@@ -166,7 +169,7 @@ export default {
             }
         },
         showRaaodsLedger(recId, ooeId, raaoId) {
-            this.raaodId = {raaod:recId, ooe: ooeId, raao: raaoId};
+            this.raaodId = { raaod: recId, ooe: ooeId, raao: raaoId };
 
             $("#modalRaaodsLedger").modal("show");
         }

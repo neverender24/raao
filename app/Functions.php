@@ -9,6 +9,6 @@ class Functions extends Model
     protected $table = 'functions';
 
     public function users() {
-        return $this->hasMany('App\AccountAccess', 'ffunccod', 'FFUNCCOD');
+        return $this->hasMany('App\AccountAccess', 'ffunccod', 'FFUNCCOD')->where('iduser', auth()->user()->recid);
     }
 }

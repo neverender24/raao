@@ -14,8 +14,11 @@ class FunctionController extends Controller
     public function index() {
 
         if (trim(auth()->user()->UserType) != 'Administrator') {
-            return $this->model->has('users')->get();
+            return $this->model->whereHas('users', function($q){
+                $q->where('iduser', auth()->user()->recid);
+            })->get();
         }
+
         return $this->model->all();
     }
 }
