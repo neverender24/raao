@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => '192.168.6.13',
+            'host' => '192.168.10.13',
             'port' => '3306',
             'database' => 'fms',
             'username' => 'itcdd',
