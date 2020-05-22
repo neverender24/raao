@@ -21,7 +21,7 @@
                                     <tr v-for="(item, index) in data" :key="item.recid">
                                         <td>{{ item.fdate }}</td>
                                         <td>{{ item.fparticulars }}</td>
-                                        <td>{{ item.payee!=null ? item.payee.PAYEE:'' }}</td>
+                                        <td>{{ item.payee ? item.payee.PAYEE:'' }}</td>
                                         <td>{{ item.frefno }}</td>
                                         <td>{{ formatPrice(item.tapprop) }}</td>
                                         <td>{{ formatPrice(item.tallot) }}</td>

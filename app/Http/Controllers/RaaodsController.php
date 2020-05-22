@@ -36,7 +36,7 @@ class RaaodsController extends Controller
         ->where('idraao', $recid);
 
         $this->search($index, $searchValue);
-		$index = $index->groupBy('idooe')->orderBy("FOOEDESC",'asc')->paginate($length);
+		$index = $index->groupBy('idooe')->orderBy("ooes.FACTCODE",'asc')->orderBy("FOOEDESC",'asc')->paginate($length);
 
     	return ['data'=>$index, 'draw'=> $request->draw];
     }
