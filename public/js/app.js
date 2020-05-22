@@ -54536,7 +54536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return arr[index];
         },
         remainingBalanceAll: function remainingBalanceAll(data, index) {
-            var firstBalance = data[0].tallot - data[0].toblig;
+            var firstBalance = data[1].tallot - data[0].toblig;
             var newBalance = 0;
             var arr = [];
             _.forEach(data, function (e, index) {
@@ -54546,6 +54546,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 newBalance = newBalance - e.toblig;
                 arr.push(newBalance);
+                arr[0] = 0.00;
             });
 
             return arr[index];

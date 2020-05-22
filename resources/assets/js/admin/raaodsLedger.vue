@@ -187,7 +187,7 @@ export default {
         },
 
         remainingBalanceAll(data, index) {
-            var firstBalance = data[0].tallot - data[0].toblig;
+            var firstBalance = data[1].tallot - data[0].toblig;
             var newBalance = 0;
             var arr = [];
             _.forEach(data, function(e, index) {
@@ -197,6 +197,7 @@ export default {
 
                 newBalance = newBalance - e.toblig;
                 arr.push(newBalance);
+                arr[0] = 0.00
             });
 
             return arr[index];
