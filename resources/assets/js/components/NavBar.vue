@@ -5,10 +5,12 @@
                 class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center"
             >
                 <a class="navbar-brand brand-logo" href="index.html">
-                    <img src="images/logo.svg" alt="logo">
+                    <!-- <img src="images/logo.svg" alt="logo"> -->
+                    FMS
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="index.html">
-                    <img src="images/logo-mini.svg" alt="logo">
+                    <!-- <img src="images/logo-mini.svg" alt="logo"> -->
+                    FMS
                 </a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">

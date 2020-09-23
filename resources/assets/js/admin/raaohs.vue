@@ -4,29 +4,32 @@
             <div class="card-body">
                 <h4 class="card-title">RAAO</h4>
                 <div class="row">
-                    <div class="form-group col-sm-12">
+                    <div class="form-group col-md-1">
+                        <p>
+                            <a
+                                class
+                                data-toggle="collapse"
+                                href="#multiCollapseExample1"
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="multiCollapseExample1"
+                            >
+                                <span class="fa fa-filter"></span>
+                                Filter
+                            </a>
+                        </p>
+                    </div>
+                    <div class="form-group col-md-11">
                         <input
                             type="text"
                             class="form-control form-control-sm"
                             v-model="tableData.search"
                             @input="getData()"
-                            placeholder="Description"
+                            placeholder="Search description"
                         />
                     </div>
                 </div>
-                <p>
-                    <a
-                        class
-                        data-toggle="collapse"
-                        href="#multiCollapseExample1"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="multiCollapseExample1"
-                    >
-                        More
-                        <span class="fa fa-sort-down"></span>
-                    </a>
-                </p>
+                
                 <div class="collapse multi-collapse" id="multiCollapseExample1">
                     <div class="more">
                         <div class="row">
@@ -88,8 +91,11 @@
                         <tr
                             v-for="(item, index) in data"
                             :key="item.recid"
-                            @click="showRaaods(item.recid)"
                         >
+                            <td>
+                                <!-- <button class="btn btn-sm" @click="addSchedule(item.recid, item.FRAODESC)"><span class="fa fa-plus"></span></button> -->
+                                <button class="btn btn-sm" @click="showRaaods(item.recid)"><span class="fa fa-list"></span></button>
+                            </td>
                             <td>{{ item.function.FFUNCCOD }}</td>
                             <td>{{ item.source.FSOURCE }}</td>
                             <td>{{ item.FRAODESC }}</td>
@@ -113,11 +119,70 @@
             </div>
         </div>
         <raaods :recid="recid"></raaods>
+
+        <!-- Schedule -->
+        <div class="modal fade" id="schedule_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Advertisement</label>
+                                    <input type="date" class="form-control" v-model="schedule.adverts">
+                                </div>
+                                <div class="form-group">
+                                    <label>Submission</label>
+                                    <input type="date" class="form-control" v-model="schedule.submission">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Notice</label>
+                                    <input type="date" class="form-control" v-model="schedule.notice">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contract</label>
+                                    <input type="date" class="form-control" v-model="schedule.contract">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="saveSchedule()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Schedule -->
     </div>
 </template>
 <style>
 .more {
     /* padding: 0px 0px 1rem 1.5rem; */
+}
+
+@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+	td:nth-of-type(1):before { content: "Action: "; }
+	td:nth-of-type(2):before { content: "Code: "; }
+	td:nth-of-type(3):before { content: "Source: "; }
+	td:nth-of-type(4):before { content: "Description: "; }
+	td:nth-of-type(5):before { content: "Appropriation: "; }
+	td:nth-of-type(6):before { content: "Allotment: "; }
+	td:nth-of-type(7):before { content: "Obligation: "; }
+	td:nth-of-type(8):before { content: "Approp Balance: "; }
+	td:nth-of-type(9):before { content: "Allot Balance: "; }
 }
 </style>
 <script>
@@ -135,6 +200,7 @@ export default {
         let sortOrders = {};
 
         let columns = [
+            { width: "10%", label: "Action", name: "Action" },
             { width: "10%", label: "Code", name: "CODE" },
             { width: "10%", label: "Source", name: "SOURCE" },
             { width: "50%", label: "Description", name: "DESCRIPTION" },
@@ -182,7 +248,14 @@ export default {
             recid: "",
             appropriations: [],
             funds: [],
-            functions: []
+            functions: [],
+            schedule: {
+                adverts: '',
+                submission: '',
+                notice: '',
+                contract: '',
+                raoh_id: 0
+            }
         };
     },
     mounted() {
@@ -238,6 +311,18 @@ export default {
             this.recid = recid;
 
             $("#exampleModalCenter").modal("show");
+        },
+
+        addSchedule(recid, desc) {
+            this.schedule.raoh_id = recid;
+            $("#schedule_modal").find("#exampleModalLabel").text(desc)
+            $("#schedule_modal").modal("show");
+        },
+
+        saveSchedule() {
+            axios.post("save_schedule", this.schedule).then(response => {
+                this.funds = response.data;
+            });
         },
 
         sumApprop(data) {

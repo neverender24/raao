@@ -29,5 +29,6 @@ Route::get('funds', 'FundController@index');
 Route::get('functions', 'FunctionController@index');
 Route::get('appropriation-types', 'AppropriationTypeController@index');
 Route::post('change-password', 'UserController@changePassword');
+Route::post('save_schedule', 'ScheduleController@save_schedule')->name('save_schedule');
 
 

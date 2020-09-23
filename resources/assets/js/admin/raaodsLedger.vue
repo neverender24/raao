@@ -17,17 +17,17 @@
                                 :sortOrders="sortOrders"
                                 @sort="sortBy"
                             >
-                                <tbody>
-                                    <tr v-for="(item, index) in data" :key="item.recid">
+                                <tbody role="rowgroup">
+                                    <tr role="row" v-for="(item, index) in data" :key="item.recid">
                                         <td>{{ item.fdate }}</td>
                                         <td>{{ item.fparticulars }}</td>
                                         <td>{{ item.payee ? item.payee.PAYEE:'' }}</td>
                                         <td>{{ item.frefno }}</td>
-                                        <td>{{ formatPrice(item.tapprop) }}</td>
-                                        <td>{{ formatPrice(item.tallot) }}</td>
-                                        <td>{{ formatPrice(item.toblig) }}</td>
-                                        <td>{{ formatPrice(remainingBalanceApp(data, index)) }}</td>
-                                        <td>{{ formatPrice(remainingBalanceAll(data, index)) }}</td>
+                                        <td style="text-align: right;">{{ formatPrice(item.tapprop) }}</td>
+                                        <td style="text-align: right;">{{ formatPrice(item.tallot) }}</td>
+                                        <td style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
+                                        <td style="text-align: right;">{{ formatPrice(appropriationBalance(data, index)) }}</td>
+                                        <td style="text-align: right;">{{ formatPrice(allotmentBalance(data, index)) }}</td>
                                     </tr>
                                 </tbody>
                             </datatable>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -52,10 +52,95 @@
 #modalRaaodsLedger .modal-content {
     background-color: mistyrose;
 }
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 0 1rem 0;
+    }
+      
+    tr:nth-child(odd) {
+      background: #ccc;
+    }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		td:before {
+			/* Now like a table header */
+			/* position: absolute; */
+			/* Top/left values mimic padding */
+			top: 0;
+			left: 6px;
+			width: 45%;
+			padding-right: 10px;
+			white-space: nowrap;
+            float: left;
+            text-align: left;
+		}
+	
+	/*
+	Label the data
+	*/
+	.ledger td:nth-of-type(1):before { content: "Date: "; }
+	.ledger td:nth-of-type(2):before { content: "Particulars: "; }
+	.ledger td:nth-of-type(3):before { content: "Payee: "; }
+	.ledger td:nth-of-type(4):before { content: "OBR#: "; }
+	.ledger td:nth-of-type(5):before { content: "Appropriation: "; }
+	.ledger td:nth-of-type(6):before { content: "Allotment: "; }
+	.ledger td:nth-of-type(7):before { content: "Obligation: "; }
+	.ledger td:nth-of-type(8):before { content: "Approp Balance: "; }
+	.ledger td:nth-of-type(9):before { content: "Allot Balance: "; }
+}
 </style>
 
 <script>
-import Datatable from "../helpers/datatable.vue";
+import Datatable from "../helpers/datatableLedger.vue";
 import Pagination from "../helpers/pagination";
 
 export default {
@@ -93,7 +178,7 @@ export default {
             sortOrders: sortOrders,
             tableData: {
                 draw: 0,
-                length: 10,
+                length: 50,
                 search: "",
                 column: 0,
                 dir: "desc"
@@ -170,7 +255,7 @@ export default {
             }
         },
 
-        remainingBalanceApp(data, index) {
+        appropriationBalance(data, index) {
             var firstBalance = data[0].tapprop - data[0].tallot;
             var newBalance = 0;
             var arr = [];
@@ -186,21 +271,17 @@ export default {
             return arr[index];
         },
 
-        remainingBalanceAll(data, index) {
-            var firstBalance = data[1].tallot - data[0].toblig;
-            var newBalance = 0;
+        allotmentBalance(data, index) {
+            var initialBalance = data[1].tallot - data[1].toblig;
+            var allotmentBalance = 0;
             var arr = [];
             _.forEach(data, function(e, index) {
-                if (index == 0) {
-                    newBalance = firstBalance;
-                }
-
-                newBalance = newBalance - e.toblig;
-                arr.push(newBalance);
+                allotmentBalance = allotmentBalance + data[index].tallot - data[index].toblig ;
+                arr.push(allotmentBalance);
                 arr[0] = 0.00
             });
 
-            return arr[index];
+           return arr[index];
         }
     }
 };

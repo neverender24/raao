@@ -26,11 +26,11 @@
                                         >
                                             <td>{{ item.ooe.FACTCODE }}</td>
                                             <td>{{ item.FOOEDESC }}</td>
-                                            <td>{{ formatPrice(item.tapprop) }}</td>
-                                            <td>{{ formatPrice(item.tallot) }}</td>
-                                            <td>{{ formatPrice(item.toblig) }}</td>
-                                            <td>{{ formatPrice(item.tapprop - item.tallot) }}</td>
-                                            <td>{{ formatPrice(item.tallot - item.toblig) }}</td>
+                                            <td style="text-align: right;">{{ formatPrice(item.tapprop) }}</td>
+                                            <td style="text-align: right;">{{ formatPrice(item.tallot) }}</td>
+                                            <td style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
+                                            <td style="text-align: right;">{{ formatPrice(item.tapprop - item.tallot) }}</td>
+                                            <td style="text-align: right;">{{ formatPrice(item.tallot - item.toblig) }}</td>
                                         </tr>
                                     </tbody>
                                 </datatable>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -52,9 +52,23 @@
         <raaods-ledger :recid="raaodId"></raaods-ledger>
     </div>
 </template>
+<style>
+@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
 
+	.details td:nth-of-type(1):before { content: "Code: "; }
+	.details td:nth-of-type(2):before { content: "Description: "; }
+	.details td:nth-of-type(5):before { content: "Appropriation: "; }
+	.details td:nth-of-type(6):before { content: "Allotment: "; }
+	.details td:nth-of-type(7):before { content: "Obligation: "; }
+	.details td:nth-of-type(8):before { content: "Approp Balance: "; }
+	.details td:nth-of-type(9):before { content: "Allot Balance: "; }
+}
+</style>
 <script>
-import Datatable from "../helpers/datatable.vue";
+import Datatable from "../helpers/datatableDetails.vue";
 import Pagination from "../helpers/pagination";
 import RaaodsLedger from "../admin/raaodsLedger";
 
