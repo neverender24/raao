@@ -24,6 +24,7 @@
     "dependencies": {
         "babel-preset-stage-2": "^6.24.1",
         "es6-promise": "^4.2.5",
-        "vue-router": "^3.0.1"
+        "vue-router": "^3.0.1",
+        "vuejs-datatable": "^2.0.0-alpha.7"
     }
 }

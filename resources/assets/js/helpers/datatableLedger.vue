@@ -1,6 +1,6 @@
 <template>
     <div class="table-responsive">
-        <table class="table table-hover table-sm ledger">
+        <table class="table table-hover table-sm ledger" id="sampleTable">
             <thead>
                 <tr>
                     <th v-for="column in columns"

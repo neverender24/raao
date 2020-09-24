@@ -143,6 +143,8 @@ and also iPads specifically.
 import Datatable from "../helpers/datatableLedger.vue";
 import Pagination from "../helpers/pagination";
 
+
+
 export default {
     props: ["recid"],
     components: {
@@ -233,7 +235,7 @@ export default {
                 let data = response.data;
 
                 if (this.tableData.draw == data.draw) {
-                    this.data = data.data.data;
+                    this.data = data.data;
                     this.configPagination(data.data);
                 }
             });
@@ -260,11 +262,7 @@ export default {
             var newBalance = 0;
             var arr = [];
             _.forEach(data, function(e, index) {
-                if (index == 0) {
-                    newBalance = firstBalance;
-                }
-
-                newBalance = newBalance - e.tallot;
+                newBalance = newBalance + data[index].tapprop - data[index].tallot;
                 arr.push(newBalance);
             });
 
