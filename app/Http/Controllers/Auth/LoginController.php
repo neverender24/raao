@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Mail\otp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -28,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'verify_otp';
 
     /**
      * Create a new controller instance.
@@ -42,15 +45,31 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        
+
        $user = User::where('UserName', $request->username)
                     ->where('UserPassword',md5($request->password))
                     ->first();
     
         if ($user) {
+
+            $digits = 4;
+            $code = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+            if (!cache()->get('log'.$user->recid)) {
+                cache()->forever($user->recid, $code);
+                cache()->put('otp'.$user->recid, $code, now()->addMinutes(5));
+                cache()->put('log'.$user->recid, $code, now()->addMinutes(60));
+                
+                Mail::to("neverender24@gmail.com")->send(new otp($code));
+            }
+
+
+
             Auth::login($user, true);
         }
        
        return redirect('/');
     }
+
+    
 }

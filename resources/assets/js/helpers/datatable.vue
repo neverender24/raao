@@ -1,12 +1,12 @@
 <template>
     <div class="table-responsive">
-        <table class="table table-hover table-sm">
+        <table :class="'table table-hover table-sm ' + table_name">
             <thead>
                 <tr>
                     <th v-for="column in columns"
                         :key="column.name"
                         @click="$emit('sort', column.name)" 
-                        :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
+                        :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting' + column.name +' '+column.name"
                         :style="'width:'+column.width+'; cursor:pointer;'"
                     >
                         {{ column.label}}
@@ -30,6 +30,6 @@
 
 <script>
     export default {
-        props: ['columns', 'sortKey', 'sortOrders']
+        props: ['columns', 'sortKey', 'sortOrders', 'table_name']
     }
 </script>

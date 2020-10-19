@@ -17,20 +17,22 @@
                                     :sortKey="sortKey"
                                     :sortOrders="sortOrders"
                                     @sort="sortBy"
+                                    :table_name="table_name"
                                 >
                                     <tbody>
                                         <tr
                                             v-for="(item, index) in data"
                                             :key="item.recid"
-                                            @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)"
+                                            
                                         >
-                                            <td>{{ item.ooe.FACTCODE }}</td>
-                                            <td>{{ item.FOOEDESC }}</td>
-                                            <td style="text-align: right;">{{ formatPrice(item.tapprop) }}</td>
-                                            <td style="text-align: right;">{{ formatPrice(item.tallot) }}</td>
-                                            <td style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
-                                            <td style="text-align: right;">{{ formatPrice(item.tapprop - item.tallot) }}</td>
-                                            <td style="text-align: right;">{{ formatPrice(item.tallot - item.toblig) }}</td>
+                                            <td class="details-control-raaods Action"></td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="FACTCODE">{{ item.ooe.FACTCODE }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="FOOEDESC">{{ item.FOOEDESC }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="tapprop" style="text-align: right;">{{ formatPrice(item.tapprop) }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="tallot" style="text-align: right;">{{ formatPrice(item.tallot) }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="toblig" style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance2" style="text-align: right;">{{ formatPrice(item.tapprop - item.tallot) }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance1" style="text-align: right;">{{ formatPrice(item.tallot - item.toblig) }}</td>
                                         </tr>
                                     </tbody>
                                 </datatable>
@@ -58,17 +60,17 @@
     and (max-width: 760px), (min-device-width: 768px) 
     and (max-device-width: 1024px)  {
 
-	.details td:nth-of-type(1):before { content: "Code: "; }
-	.details td:nth-of-type(2):before { content: "Description: "; }
-	.details td:nth-of-type(5):before { content: "Appropriation: "; }
-	.details td:nth-of-type(6):before { content: "Allotment: "; }
-	.details td:nth-of-type(7):before { content: "Obligation: "; }
-	.details td:nth-of-type(8):before { content: "Approp Balance: "; }
-	.details td:nth-of-type(9):before { content: "Allot Balance: "; }
+	.FACTCODE,.tapprop,.tallot,.toblig,.Balance2,.Balance1 {
+        display: none;
+    }
+
+    .child_table_raaods td:first-child{
+        width: 10%;
+    }
 }
 </style>
 <script>
-import Datatable from "../helpers/datatableDetails.vue";
+import Datatable from "../helpers/datatable.vue";
 import Pagination from "../helpers/pagination";
 import RaaodsLedger from "../admin/raaodsLedger";
 
@@ -83,15 +85,16 @@ export default {
         let sortOrders = {};
 
         let columns = [
-            { width: "10%", label: "Account Code", name: "Acct. Code" },
+            { width: "10%", label: "Action", name: "Action" },
+            { width: "10%", label: "Account Code", name: "FACTCODE" },
             {
                 width: "50%",
                 label: "Account Description",
-                name: "Acct. Description"
+                name: "FOOEDESC"
             },
-            { width: "10%", label: "Appropration", name: "Appropration" },
-            { width: "10%", label: "Allotment", name: "Allotment" },
-            { width: "10%", label: "Obligation", name: "Obligation" },
+            { width: "10%", label: "Appropration", name: "tapprop" },
+            { width: "10%", label: "Allotment", name: "tallot" },
+            { width: "10%", label: "Obligation", name: "toblig" },
             { width: "10%", label: "Appropriation Balance", name: "Balance2" },
             { width: "10%", label: "Allotment Balance", name: "Balance1" }
         ];
@@ -101,6 +104,7 @@ export default {
         });
 
         return {
+            table_name: "raaods",
             columns: columns,
             sortKey: "recid",
             sortOrders: sortOrders,
@@ -131,6 +135,69 @@ export default {
             self.tableData.recid = self.recid;
 
             return this.getData();
+        }
+    },
+    updated() {
+        if ($(window).width() > 700) {
+            $('.Action').addClass('d-none')
+        }
+    },
+    mounted() {
+        
+
+        // Add event listener for opening and closing details
+        if ($(window).width() < 700) {
+
+        //    $('.raaoh td:nth-child(3)').hide()
+
+            var toggle_desc_raods = false
+            var self = this
+            $('.raaods tbody').on('click', 'td.details-control-raaods', function () {
+                    $(this).addClass('shown')
+                    var tr = $(this).closest('tr')
+                    toggle_desc_raods = !toggle_desc_raods
+
+                    if (toggle_desc_raods) {
+                        if ($(window).width() < 700) 
+                        tr.after('<tr class="child_raods">' +
+                                    '<td colspan="2">'+ 
+                                        '<table class="child_table_raaods"><tbody>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(2)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(2)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(4)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(4)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(5)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(5)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(6)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(6)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(7)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(7)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaods').find("th:nth-child(8)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(8)").html() +'</td>' +
+                                            '</tr>'+
+                                        '</tbody></table>' +
+                                    '</td>' +
+                                '</tr>');
+
+
+                    } else {
+                         $(this).removeClass('shown')
+                        $('.child_raods').remove()
+                    }
+                
+            } );
+
         }
     },
     methods: {

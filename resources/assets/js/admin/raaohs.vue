@@ -86,26 +86,24 @@
                     :sortKey="sortKey"
                     :sortOrders="sortOrders"
                     @sort="sortBy"
+                    :table_name="table_name"
                 >
-                    <tbody>
+                    <tbody class="raaoh">
                         <tr
                             v-for="(item, index) in data"
                             :key="item.recid"
                         >
-                            <td>
-                                <!-- <button class="btn btn-sm" @click="addSchedule(item.recid, item.FRAODESC)"><span class="fa fa-plus"></span></button> -->
-                                <button class="btn btn-sm" @click="showRaaods(item.recid)"><span class="fa fa-list"></span></button>
-                            </td>
-                            <td>{{ item.function.FFUNCCOD }}</td>
-                            <td>{{ item.source.FSOURCE }}</td>
-                            <td>{{ item.FRAODESC }}</td>
-                            <td style="text-align: right;">{{ formatPrice(sumApprop(item.approp)) }}</td>
-                            <td style="text-align: right;">{{ formatPrice(sumAllot(item.allot)) }}</td>
-                            <td style="text-align: right;">{{ formatPrice(sumOblig(item.oblig)) }}</td>
-                            <td
+                            <td class="details-control Action"></td>
+                            <td class="CODE" @click="showRaaods(item.recid)">{{ item.function.FFUNCCOD }}</td>
+                            <td class="SOURCE" @click="showRaaods(item.recid)">{{ item.source.FSOURCE }}</td>
+                            <td class="DESCRIPTION" @click="showRaaods(item.recid)">{{ item.FRAODESC }}</td>
+                            <td class="APPROP" @click="showRaaods(item.recid)" style="text-align: right;">{{ formatPrice(sumApprop(item.approp)) }}</td>
+                            <td class="ALLOT" @click="showRaaods(item.recid)" style="text-align: right;">{{ formatPrice(sumAllot(item.allot)) }}</td>
+                            <td class="OBLIG" @click="showRaaods(item.recid)" style="text-align: right;">{{ formatPrice(sumOblig(item.oblig)) }}</td>
+                            <td class="AppropBal" @click="showRaaods(item.recid)"
                                 style="text-align: right;"
                             >{{ formatPrice(allotBalance(sumApprop(item.approp), sumAllot(item.allot))) }}</td>
-                            <td
+                            <td class="AllotBal" @click="showRaaods(item.recid)"
                                 style="text-align: right;"
                             >{{ formatPrice(appropBalance(sumAllot(item.allot), sumOblig(item.oblig))) }}</td>
                         </tr>
@@ -174,15 +172,31 @@
     and (max-width: 760px), (min-device-width: 768px) 
     and (max-device-width: 1024px)  {
 
-	td:nth-of-type(1):before { content: "Action: "; }
-	td:nth-of-type(2):before { content: "Code: "; }
-	td:nth-of-type(3):before { content: "Source: "; }
-	td:nth-of-type(4):before { content: "Description: "; }
-	td:nth-of-type(5):before { content: "Appropriation: "; }
-	td:nth-of-type(6):before { content: "Allotment: "; }
-	td:nth-of-type(7):before { content: "Obligation: "; }
-	td:nth-of-type(8):before { content: "Approp Balance: "; }
-	td:nth-of-type(9):before { content: "Allot Balance: "; }
+	/* .raaoh td:nth-child(2),table.raaoh  .raaoh td:nth-child(3), .raaoh td:nth-child(5), .raaoh td:nth-child(6), .raaoh td:nth-child(7), .raaoh td:nth-child(8), .raaoh td:nth-child(9) {
+        display: none
+    }
+
+    .raaoh th:nth-child(2), .raaoh th:nth-child(3), .raaoh th:nth-child(5), .raaoh th:nth-child(6), .raaoh th:nth-child(7), .raaoh th:nth-child(8), .raaoh th:nth-child(9) {
+        display: none
+    } */
+
+    .CODE,.SOURCE,.APPROP,.ALLOT,.OBLIG,.AppropBal,.AllotBal {
+        display: none;
+    }
+
+    .child_table td:first-child{
+        width: 10%;
+    }
+}
+
+
+
+td.details-control, td.details-control-raaods {
+    background: url('/images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+.raaoh tr td.shown, .raaods tr td.shown {
+    background: url('/images/details_close.png') no-repeat center center;
 }
 </style>
 <script>
@@ -210,9 +224,9 @@ export default {
             {
                 width: "10%",
                 label: "Appropriation Balance",
-                name: "Approp Bal"
+                name: "AppropBal"
             },
-            { width: "10%", label: "Allotment Balance", name: "Allot Bal" }
+            { width: "10%", label: "Allotment Balance", name: "AllotBal" }
         ];
 
         columns.forEach(column => {
@@ -220,6 +234,7 @@ export default {
         });
 
         return {
+            table_name: "raaoh",
             columns: columns,
             sortKey: "recid",
             sortOrders: sortOrders,
@@ -258,6 +273,11 @@ export default {
             }
         };
     },
+    updated() {
+        if ($(window).width() > 700) {
+            $('.Action').addClass('d-none')
+        }
+    },
     mounted() {
         this.getData();
 
@@ -272,6 +292,65 @@ export default {
         axios.get("functions").then(response => {
             this.functions = response.data;
         });
+
+
+        // Add event listener for opening and closing details
+        if ($(window).width() < 700) {
+
+        //    $('.raaoh td:nth-child(3)').hide()
+
+            var toggle_desc = false
+            var self = this
+            $('.raaoh tbody').on('click', 'td.details-control', function () {
+                    $(this).addClass('shown')
+                    var tr = $(this).closest('tr')
+                    toggle_desc = !toggle_desc
+
+                    if (toggle_desc) {
+                        tr.after('<tr class="child">' +
+                                    '<td colspan="2">'+ 
+                                        '<table class="child_table"><tbody>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(2)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(2)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(3)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(3)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(5)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(5)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(6)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(6)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(7)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(7)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(8)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(8)").html() +'</td>' +
+                                            '</tr>'+
+                                            '<tr>'+
+                                                '<td>'+ $('.raaoh').find("th:nth-child(9)").html() +'</td>' +
+                                                '<td>'+ tr.find("td:nth-child(9)").html() +'</td>' +
+                                            '</tr>'+
+                                        '</tbody></table>' +
+                                    '</td>' +
+                                '</tr>');
+
+
+                    } else {
+                         $(this).removeClass('shown')
+                        $('tr.child').remove()
+                    }
+                
+            } );
+
+        }
     },
     methods: {
         configPagination(data) {
@@ -363,7 +442,8 @@ export default {
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace(",", ".");
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        },
+
     }
 };
 </script>
