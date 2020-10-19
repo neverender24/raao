@@ -60,10 +60,8 @@ class LoginController extends Controller
                 cache()->put('otp'.$user->recid, $code, now()->addMinutes(5));
                 cache()->put('log'.$user->recid, $code, now()->addMinutes(60));
                 
-                Mail::to("neverender24@gmail.com")->send(new otp($code));
+                Mail::to($user->email)->send(new otp($code));
             }
-
-
 
             Auth::login($user, true);
         }
