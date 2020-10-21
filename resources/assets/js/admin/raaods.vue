@@ -33,6 +33,9 @@
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="toblig" style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance2" style="text-align: right;">{{ formatPrice(item.tapprop - item.tallot) }}</td>
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance1" style="text-align: right;">{{ formatPrice(item.tallot - item.toblig) }}</td>
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Req"
+                                                style="text-align: right;"
+                                            >{{ requisition(item.tapprop, item.toblig) }}</td>
                                         </tr>
                                     </tbody>
                                 </datatable>
@@ -60,7 +63,7 @@
     and (max-width: 760px), (min-device-width: 768px) 
     and (max-device-width: 1024px)  {
 
-	.FACTCODE,.tapprop,.tallot,.toblig,.Balance2,.Balance1 {
+	.FACTCODE,.tapprop,.tallot,.toblig,.Balance2,.Balance1, .Req {
         display: none;
     }
 
@@ -96,7 +99,8 @@ export default {
             { width: "10%", label: "Allotment", name: "tallot" },
             { width: "10%", label: "Obligation", name: "toblig" },
             { width: "10%", label: "Appropriation Balance", name: "Balance2" },
-            { width: "10%", label: "Allotment Balance", name: "Balance1" }
+            { width: "10%", label: "Allotment Balance", name: "Balance1" },
+            { width: "10%", label: "Requisition", name: "Req" }
         ];
 
         columns.forEach(column => {
@@ -253,6 +257,15 @@ export default {
             this.raaodId = { raaod: recId, ooe: ooeId, raao: raaoId };
 
             $("#modalRaaodsLedger").modal("show");
+        },
+
+        requisition(approp, oblig) {
+            var percent = 0
+            if (approp != 0) {
+                percent = (oblig/approp)*100
+            }
+
+            return percent.toFixed(2) + "%"
         }
     }
 };

@@ -14701,7 +14701,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-module.exports = __webpack_require__(96);
+module.exports = __webpack_require__(93);
 
 
 /***/ }),
@@ -14715,7 +14715,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__App_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuejs_datatable__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuejs_datatable__ = __webpack_require__(89);
 __webpack_require__(20);
 
 window.Vue = __webpack_require__(5);
@@ -53500,7 +53500,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.more {\r\n    /* padding: 0px 0px 1rem 1.5rem; */\n}\n@media\r\n\t  only screen \r\n    and (max-width: 760px), (min-device-width: 768px) \r\n    and (max-device-width: 1024px)  {\r\n\r\n\t/* .raaoh td:nth-child(2),table.raaoh  .raaoh td:nth-child(3), .raaoh td:nth-child(5), .raaoh td:nth-child(6), .raaoh td:nth-child(7), .raaoh td:nth-child(8), .raaoh td:nth-child(9) {\r\n        display: none\r\n    }\r\n\r\n    .raaoh th:nth-child(2), .raaoh th:nth-child(3), .raaoh th:nth-child(5), .raaoh th:nth-child(6), .raaoh th:nth-child(7), .raaoh th:nth-child(8), .raaoh th:nth-child(9) {\r\n        display: none\r\n    } */\n.CODE,.SOURCE,.APPROP,.ALLOT,.OBLIG,.AppropBal,.AllotBal {\r\n        display: none;\n}\n.child_table td:first-child{\r\n        width: 10%;\n}\n}\ntd.details-control, td.details-control-raaods {\r\n    background: url('/images/details_open.png') no-repeat center center;\r\n    cursor: pointer;\n}\n.raaoh tr td.shown, .raaods tr td.shown {\r\n    background: url('/images/details_close.png') no-repeat center center;\n}\r\n", ""]);
+exports.push([module.i, "\n@media\r\n\t  only screen \r\n    and (max-width: 760px), (min-device-width: 768px) \r\n    and (max-device-width: 1024px)  {\r\n\r\n\t/* .raaoh td:nth-child(2),table.raaoh  .raaoh td:nth-child(3), .raaoh td:nth-child(5), .raaoh td:nth-child(6), .raaoh td:nth-child(7), .raaoh td:nth-child(8), .raaoh td:nth-child(9) {\r\n        display: none\r\n    }\r\n\r\n    .raaoh th:nth-child(2), .raaoh th:nth-child(3), .raaoh th:nth-child(5), .raaoh th:nth-child(6), .raaoh th:nth-child(7), .raaoh th:nth-child(8), .raaoh th:nth-child(9) {\r\n        display: none\r\n    } */\n.CODE,.SOURCE,.APPROP,.ALLOT,.OBLIG,.AppropBal,.AllotBal, .Req {\r\n        display: none;\n}\n.child_table td:first-child{\r\n        width: 10%;\n}\n}\ntd.details-control, td.details-control-raaods {\r\n    background: url('/images/details_open.png') no-repeat center center;\r\n    cursor: pointer;\n}\n.raaoh tr td.shown, .raaods tr td.shown {\r\n    background: url('/images/details_close.png') no-repeat center center;\n}\r\n", ""]);
 
 // exports
 
@@ -53736,7 +53736,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             width: "10%",
             label: "Appropriation Balance",
             name: "AppropBal"
-        }, { width: "10%", label: "Allotment Balance", name: "AllotBal" }];
+        }, { width: "10%", label: "Allotment Balance", name: "AllotBal" }, { width: "10%", label: "Requisition", name: "Req" }];
 
         columns.forEach(function (column) {
             sortOrders[column.name] = -1;
@@ -53913,6 +53913,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         formatPrice: function formatPrice(value) {
             var val = (value / 1).toFixed(2).replace(",", ".");
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        requisition: function requisition(approp, oblig) {
+            var percent = 0;
+            if (approp != 0) {
+                percent = oblig / approp * 100;
+            }
+
+            return percent.toFixed(2) + "%";
         }
     }
 });
@@ -54237,7 +54245,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n@media\r\n\t  only screen \r\n    and (max-width: 760px), (min-device-width: 768px) \r\n    and (max-device-width: 1024px)  {\n.FACTCODE,.tapprop,.tallot,.toblig,.Balance2,.Balance1 {\r\n        display: none;\n}\n.child_table_raaods td:first-child{\r\n        width: 10%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n@media\r\n\t  only screen \r\n    and (max-width: 760px), (min-device-width: 768px) \r\n    and (max-device-width: 1024px)  {\n.FACTCODE,.tapprop,.tallot,.toblig,.Balance2,.Balance1, .Req {\r\n        display: none;\n}\n.child_table_raaods td:first-child{\r\n        width: 10%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -54254,6 +54262,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__helpers_pagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__admin_raaodsLedger__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__admin_raaodsLedger___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__admin_raaodsLedger__);
+//
+//
+//
 //
 //
 //
@@ -54344,7 +54355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             width: "50%",
             label: "Account Description",
             name: "FOOEDESC"
-        }, { width: "10%", label: "Appropration", name: "tapprop" }, { width: "10%", label: "Allotment", name: "tallot" }, { width: "10%", label: "Obligation", name: "toblig" }, { width: "10%", label: "Appropriation Balance", name: "Balance2" }, { width: "10%", label: "Allotment Balance", name: "Balance1" }];
+        }, { width: "10%", label: "Appropration", name: "tapprop" }, { width: "10%", label: "Allotment", name: "tallot" }, { width: "10%", label: "Obligation", name: "toblig" }, { width: "10%", label: "Appropriation Balance", name: "Balance2" }, { width: "10%", label: "Allotment Balance", name: "Balance1" }, { width: "10%", label: "Requisition", name: "Req" }];
 
         columns.forEach(function (column) {
             sortOrders[column.name] = -1;
@@ -54472,6 +54483,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.raaodId = { raaod: recId, ooe: ooeId, raao: raaoId };
 
             $("#modalRaaodsLedger").modal("show");
+        },
+        requisition: function requisition(approp, oblig) {
+            var percent = 0;
+            if (approp != 0) {
+                percent = oblig / approp * 100;
+            }
+
+            return percent.toFixed(2) + "%";
         }
     }
 });
@@ -55397,6 +55416,33 @@ var render = function() {
                                         )
                                       )
                                     ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "Req",
+                                      staticStyle: { "text-align": "right" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.showRaaodsLedger(
+                                            item.recid,
+                                            item.ooe.recid,
+                                            item.idraao
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.requisition(
+                                            item.tapprop,
+                                            item.toblig
+                                          )
+                                        )
+                                      )
+                                    ]
                                   )
                                 ])
                               }),
@@ -55933,6 +55979,29 @@ var render = function() {
                             )
                           )
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "Req",
+                          staticStyle: { "text-align": "right" },
+                          on: {
+                            click: function($event) {
+                              return _vm.showRaaods(item.recid)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm.requisition(
+                                _vm.sumApprop(item.approp),
+                                _vm.sumOblig(item.oblig)
+                              )
+                            )
+                          )
+                        ]
                       )
                     ])
                   }),
@@ -56204,19 +56273,16 @@ if (false) {
 }
 
 /***/ }),
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */
+/* 89 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* unused harmony export DefaultHandler */
 /* unused harmony export VueDatatable */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return x; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_path__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_path__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_object_path__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_property_decorator__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_property_decorator__ = __webpack_require__(91);
 /**
  * vuejs-datatable v2.0.0-alpha.7, module vuejs-datatable build esm
  * License: MIT (see git+https://github.com/GerkinDev/vuejs-datatable.git/blob/master/LICENSE for the full license)
@@ -56230,7 +56296,7 @@ const h=t=>(t=>t&&"function"==typeof t.then)(t)?t:Promise.resolve(t),d=[String,A
 
 
 /***/ }),
-/* 93 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory){
@@ -56542,7 +56608,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 94 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56558,7 +56624,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /* unused harmony export Ref */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_class_component__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_class_component__ = __webpack_require__(92);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1_vue_class_component__["b"]; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_0_vue___default.a; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1_vue_class_component__["c"]; });
@@ -56845,7 +56911,7 @@ function isPromise(obj) {
 
 
 /***/ }),
-/* 95 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57176,7 +57242,7 @@ Component.registerHooks = function registerHooks(keys) {
 
 
 /***/ }),
-/* 96 */
+/* 93 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -51,13 +51,15 @@ class RaaodsController extends Controller
         $idraao          = $request->idraao;
         $idooe          = $request->idooe;
 
-        $index = $this->model->with(['ooe', 'payee'])
+        $index = $this->model->with(['ooe', 'payee']) 
         ->select(
             'idooe', 
             'recid', 
             'fdate',
             'fparticulars',
             'aipcode', 
+            'frefno',
+            'idpayee',
             DB::raw('if(entrytype = 1, famount, 0) as tapprop'),
             DB::raw('if(entrytype = 2, famount, 0) as tallot'),
             DB::raw('if(entrytype = 3, famount, 0) as toblig')

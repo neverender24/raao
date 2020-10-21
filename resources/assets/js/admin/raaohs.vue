@@ -106,6 +106,9 @@
                             <td class="AllotBal" @click="showRaaods(item.recid)"
                                 style="text-align: right;"
                             >{{ formatPrice(appropBalance(sumAllot(item.allot), sumOblig(item.oblig))) }}</td>
+                            <td class="Req" @click="showRaaods(item.recid)"
+                                style="text-align: right;"
+                            >{{ requisition(sumApprop(item.approp), sumOblig(item.oblig)) }}</td>
                         </tr>
                     </tbody>
                 </datatable>
@@ -163,9 +166,6 @@
     </div>
 </template>
 <style>
-.more {
-    /* padding: 0px 0px 1rem 1.5rem; */
-}
 
 @media
 	  only screen 
@@ -180,7 +180,7 @@
         display: none
     } */
 
-    .CODE,.SOURCE,.APPROP,.ALLOT,.OBLIG,.AppropBal,.AllotBal {
+    .CODE,.SOURCE,.APPROP,.ALLOT,.OBLIG,.AppropBal,.AllotBal, .Req {
         display: none;
     }
 
@@ -226,7 +226,8 @@ export default {
                 label: "Appropriation Balance",
                 name: "AppropBal"
             },
-            { width: "10%", label: "Allotment Balance", name: "AllotBal" }
+            { width: "10%", label: "Allotment Balance", name: "AllotBal" },
+            { width: "10%", label: "Requisition", name: "Req" }
         ];
 
         columns.forEach(column => {
@@ -443,6 +444,15 @@ export default {
             let val = (value / 1).toFixed(2).replace(",", ".");
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
+
+        requisition(approp, oblig) {
+            var percent = 0
+            if (approp != 0) {
+                percent = (oblig/approp)*100
+            }
+
+            return percent.toFixed(2) + "%"
+        }
 
     }
 };
