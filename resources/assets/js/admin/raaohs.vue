@@ -106,7 +106,7 @@
                             <td class="AllotBal" @click="showRaaods(item.recid)"
                                 style="text-align: right;"
                             >{{ formatPrice(appropBalance(sumAllot(item.allot), sumOblig(item.oblig))) }}</td>
-                            <td class="Req" @click="showRaaods(item.recid)"
+                            <td :class="colorCoding(sumApprop(item.approp), sumOblig(item.oblig)) + ' Req'" @click="showRaaods(item.recid)"
                                 style="text-align: right;"
                             >{{ requisition(sumApprop(item.approp), sumOblig(item.oblig)) }}</td>
                         </tr>
@@ -451,7 +451,24 @@ export default {
                 percent = (oblig/approp)*100
             }
 
-            return percent.toFixed(2) + "%"
+            return percent.toFixed(2)+ "%"
+        },
+
+        colorCoding(approp, oblig) {
+            var percent = 0
+            if (approp != 0) {
+                percent = (oblig/approp)*100
+            }
+
+            percent = percent.toFixed(2)
+
+            if (percent <= 25) {
+                return 'table-danger'
+            } else if (percent > 25 && percent <= 75) {
+                return 'table-warning'
+            } else {
+                return ''
+            }
         }
 
     }

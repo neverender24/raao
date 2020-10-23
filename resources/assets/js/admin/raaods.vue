@@ -33,7 +33,7 @@
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="toblig" style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance2" style="text-align: right;">{{ formatPrice(item.tapprop - item.tallot) }}</td>
                                             <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Balance1" style="text-align: right;">{{ formatPrice(item.tallot - item.toblig) }}</td>
-                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" class="Req"
+                                            <td @click="showRaaodsLedger(item.recid, item.ooe.recid, item.idraao)" :class="colorCoding(item.tapprop, item.toblig) + ' Req'"
                                                 style="text-align: right;"
                                             >{{ requisition(item.tapprop, item.toblig) }}</td>
                                         </tr>
@@ -266,6 +266,23 @@ export default {
             }
 
             return percent.toFixed(2) + "%"
+        },
+
+        colorCoding(approp, oblig) {
+            var percent = 0
+            if (approp != 0) {
+                percent = (oblig/approp)*100
+            }
+
+            percent = percent.toFixed(2)
+
+            if (percent <= 25) {
+                return 'table-danger'
+            } else if (percent > 25 && percent <= 75) {
+                return 'table-warning'
+            } else {
+                return ''
+            }
         }
     }
 };
