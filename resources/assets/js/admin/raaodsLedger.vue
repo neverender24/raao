@@ -28,6 +28,11 @@
                                         <td style="text-align: right;">{{ formatPrice(item.toblig) }}</td>
                                         <td style="text-align: right;">{{ formatPrice(appropriationBalance(data, index)) }}</td>
                                         <td style="text-align: right;">{{ formatPrice(allotmentBalance(data, index)) }}</td>
+                                        <td>{{ item.vouchno }}</td>
+                                        <td>{{ item.chkno }}</td>
+                                        <td>{{ item.chkdate }}</td>
+                                        <td>{{ item.advno }}</td>
+                                        <td>{{ item.jevno }}</td>
                                     </tr>
                                 </tbody>
                             </datatable>
@@ -108,7 +113,12 @@ export default {
                 label: "Appropriation Balance",
                 name: "appbalance"
             },
-            { width: "10%", label: "Allotment Balance", name: "allbalance" }
+            { width: "10%", label: "Allotment Balance", name: "allbalance" },
+            { width: "10%", label: "VouchNo", name: "vouchno" },
+            { width: "10%", label: "Chkno", name: "chkno" },
+            { width: "10%", label: "Chkdate", name: "chkdate" },
+            { width: "10%", label: "Advno", name: "advno" },
+            { width: "10%", label: "Jevno", name: "jevno" }
         ];
 
         columns.forEach(column => {

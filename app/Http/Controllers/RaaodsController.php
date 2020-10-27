@@ -60,6 +60,11 @@ class RaaodsController extends Controller
             'aipcode', 
             'frefno',
             'idpayee',
+            'vouchno',
+            'chkno',
+            'chkdate',
+            'advno',
+            'jevno',
             DB::raw('if(entrytype = 1, famount, 0) as tapprop'),
             DB::raw('if(entrytype = 2, famount, 0) as tallot'),
             DB::raw('if(entrytype = 3, famount, 0) as toblig')
