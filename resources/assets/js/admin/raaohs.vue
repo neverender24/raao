@@ -227,7 +227,7 @@ export default {
                 name: "AppropBal"
             },
             { width: "10%", label: "Allotment Balance", name: "AllotBal" },
-            { width: "10%", label: "Requisition", name: "Req" }
+            { width: "10%", label: "Utilization", name: "Req" }
         ];
 
         columns.forEach(column => {

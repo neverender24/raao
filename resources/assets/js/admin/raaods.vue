@@ -100,7 +100,7 @@ export default {
             { width: "10%", label: "Obligation", name: "toblig" },
             { width: "10%", label: "Appropriation Balance", name: "Balance2" },
             { width: "10%", label: "Allotment Balance", name: "Balance1" },
-            { width: "10%", label: "Requisition", name: "Req" }
+            { width: "10%", label: "Utilization", name: "Req" }
         ];
 
         columns.forEach(column => {
