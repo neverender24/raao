@@ -30,6 +30,7 @@ class otp extends Mailable
     {
         $code = $this->code;
 
-        return $this->view('email', compact('code'));
+        return $this->subject("FUMS OTP Code")
+                ->view('email', compact('code'));
     }
 }

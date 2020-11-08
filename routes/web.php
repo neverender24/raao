@@ -25,7 +25,7 @@ Auth::routes();
     Route::get('/', 'HomeController@home')->middleware('auth');
 
 
-
+    
 
 
     Route::post('get-user', 'UserController@getUser');

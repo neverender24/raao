@@ -48,7 +48,7 @@
                                     @change="getData()"
                                     class="form-control form-control-sm"
                                 >
-                                    <option value>- select -</option>
+                                    <option value>- Select function -</option>
                                     <option
                                         v-for="(item, index) in functions"
                                         :value="item.FFUNCCOD"
@@ -61,7 +61,7 @@
                                     @change="getData()"
                                     class="form-control form-control-sm"
                                 >
-                                    <option value>- select fund -</option>
+                                    <option value>- Select fund -</option>
                                     <option v-for="(item, index) in funds">{{ item.FFUNDDES }}</option>
                                 </select>
                             </div>
@@ -71,7 +71,7 @@
                                     @change="getData()"
                                     class="form-control form-control-sm"
                                 >
-                                    <option value>- select appropration -</option>
+                                    <option value>- Select appropration -</option>
                                     <option
                                         v-for="(item, index) in appropriations"
                                     >{{ item.FAPPTYPE }}</option>

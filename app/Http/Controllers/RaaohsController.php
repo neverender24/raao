@@ -45,6 +45,10 @@ class RaaohsController extends Controller
             $index->where(function($query) use($searchValue, $year){
                 $query->where('tyear','LIKE','%'.$year.'%');
             });
+        } else {
+            $index->where(function($query) use($searchValue, $year){
+                $query->where('tyear','2020');
+            });
         }
 
         if ($ffunccod) {

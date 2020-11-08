@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import DashboardComponent from "./../pages/dashboard"
 import Raaohs from "../admin/raaohs.vue"
+import Accounts from "../admin/accounts.vue"
 import Axios from 'axios'
 
 Vue.use(VueRouter)
@@ -17,6 +18,11 @@ const routes = [
         path: '/raaohs',
         name: 'raaohs',
         component: Raaohs,
+    },
+    {
+        path: '/accounts',
+        name: 'accounts',
+        component: Accounts,
     },
 ];
 

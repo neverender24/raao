@@ -28,8 +28,14 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" v-on:click="logout()" class="nav-link">
+            <router-link to="accounts" class="nav-link">
               <i class="menu-icon fa fa-list"></i>
+              <span class="menu-title">Accounts</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <a href="#" v-on:click="logout()" class="nav-link">
+              <i class="menu-icon fa fa-power-off"></i>
               <span class="menu-title">Logout</span>
             </a>
           </li>
