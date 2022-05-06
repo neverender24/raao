@@ -47,7 +47,7 @@ class RaaohsController extends Controller
             });
         } else {
             $index->where(function($query) use($searchValue, $year){
-                $query->where('tyear','2020');
+                $query->where('tyear','2022');
             });
         }
 
